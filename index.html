@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>롤플레이 핵심문장</title>
+<style>
+:root{--bg:#f5f6fa;--card:#fff;--tx:#1d2330;--sub:#6b7385;--pri:#2f5bd8;--ok:#1f9d55;--no:#e08a00;--bd:#e3e6ee}
+@media(prefers-color-scheme:dark){:root{--bg:#12151c;--card:#1c212c;--tx:#eef1f7;--sub:#9aa3b5;--pri:#6f93ff;--ok:#3ec97c;--no:#ffb43b;--bd:#2c3342}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif}
+body{display:flex;flex-direction:column}
+header{padding:14px 16px 6px;font-weight:700;font-size:17px}
+main{flex:1;overflow-y:auto;padding:8px 16px 16px}
+nav{display:flex;border-top:1px solid var(--bd);background:var(--card)}
+nav button{flex:1;padding:14px 0;border:0;background:none;color:var(--sub);font-size:15px;font-weight:600}
+nav button.on{color:var(--pri);border-top:3px solid var(--pri);padding-top:11px}
+.item{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.item .n{color:var(--sub);font-size:12px;margin-bottom:4px}
+.item .k{font-size:16px;line-height:1.45}
+.item .e{font-size:16px;line-height:1.45;color:var(--pri);margin-top:6px;font-weight:600}
+.stat{display:flex;gap:8px;justify-content:center;font-size:13px;color:var(--sub);margin-bottom:12px;flex-wrap:wrap}
+.stat b{color:var(--tx)}
+.big{background:var(--card);border:2px solid var(--bd);border-radius:18px;padding:28px 20px;min-height:230px;display:flex;flex-direction:column;justify-content:center;text-align:center;
+ user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
+.big .k{font-size:22px;line-height:1.5;font-weight:600}
+.big .e{font-size:20px;line-height:1.5;color:var(--pri);font-weight:700;margin-top:18px;min-height:30px;visibility:hidden}
+.big.show .e{visibility:visible}
+.big.show{border-color:var(--pri)}
+.hint{text-align:center;color:var(--sub);font-size:13px;margin:10px 0 16px}
+.btns{display:flex;gap:12px}
+.btns button{flex:1;padding:18px 0;border:0;border-radius:14px;font-size:18px;font-weight:700;color:#fff}
+.ok{background:var(--ok)}.no{background:var(--no)}
+.reset{margin-top:22px;width:100%;padding:12px;border:1px solid var(--bd);border-radius:12px;background:none;color:var(--sub);font-size:14px}
+.done{text-align:center;padding:50px 10px;font-size:18px;line-height:1.7}
+</style>
+</head>
+<body>
+<header id="title">롤플레이 핵심문장 (p.105)</header>
+<main id="main"></main>
+<nav>
+<button id="t1" class="on">전체 보기</button>
+<button id="t2">암기 연습</button>
+</nav>
+<script>
+var DATA = [{"n":1,"k":"너희 집은 어디에 있어?","e":"Where is your house located exactly?"},{"n":2,"k":"너희 집 까지 어떻게 가는 게 좋아?","e":"What\u0027s the best way to get to your place?"},{"n":3,"k":"파티는 몇 시에 시작해?","e":"What time does your party start?"},{"n":4,"k":"내가 몇 시에 도착해야 돼?","e":"What time should I be there?"},{"n":5,"k":"어떤 음식 먹고 싶어?","e":"What kind of food do you want to eat?"},{"n":6,"k":"내가 피자 가져갈까?","e":"Do you want me to bring pizza?"},{"n":7,"k":"몇 명 정도 와?","e":"How many people will be there?"},{"n":8,"k":"그건 그렇고, 드레스코드 있어?","e":"By the way, is there a dress code?"},{"n":9,"k":"거기까지 얼마나 걸려?","e":"How long does it take to get there?"},{"n":10,"k":"여기서 얼마나 멀어?","e":"How far is the place from here?"},{"n":11,"k":"너희 가게에서 가장 가까운 지하철역은 어디야?","e":"What is the nearest subway station to your shop?"},{"n":12,"k":"학원 근처에 유명한 건물 있어?","e":"Is there any famous building near the institute?"},{"n":13,"k":"주소 문자로 보내줄 수 있어?","e":"Could you send me the exact address by text message?"},{"n":14,"k":"학원 근처에 유명한 건물 뭐 있어?","e":"What is a famous building near the institute?"},{"n":15,"k":"첫 영화는 몇 시에 시작해?","e":"What time does the first show start?"},{"n":16,"k":"7시 영화 2장 예약할 수 있어?","e":"Can I reserve two tickets for the 7 o\u0027clock show?"},{"n":17,"k":"영화 추천해줄 수 있어?","e":"Could you recommend a good movie?"},{"n":18,"k":"뒷자리/앞자리/중간자리 가능해?","e":"Can I get seats in the back/front/middle?"},{"n":19,"k":"멤버십 얼마야?","e":"How much is the membership?"},{"n":20,"k":"요가 수업 있어?","e":"Do you offer yoga classes?"},{"n":21,"k":"러닝머신 몇 개 있어?","e":"How many treadmills do you have?"},{"n":22,"k":"유니폼/수건 제공해?","e":"Do you offer a uniform/towel?"},{"n":23,"k":"PT 선생님 있어?","e":"Do you have personal trainers?"},{"n":24,"k":"락커룸 쓰려면 추가 비용 내야 해?","e":"Is there an extra fee for using a locker?"},{"n":25,"k":"5월 1일부터 3일까지 숙박하고 싶어요. 싱글룸/트윈룸 있나요?","e":"I\u0027d like to stay from May 1st to May 3rd. Do you have a single/ twin room?"},{"n":26,"k":"1박에 얼마예요?","e":"How much is it per night?"},{"n":27,"k":"조식 포함되어 있나요?","e":"Is breakfast included?"},{"n":28,"k":"셔틀버스 있나요?","e":"Do you have a shuttle bus?"},{"n":29,"k":"체크인/체크아웃 몇 시인가요?","e":"What time is check-in/check-out?"},{"n":30,"k":"호텔에 헬스장/사우나/수영장 있나요?","e":"Does your hotel have a gym/sauna/swimming pool?"},{"n":31,"k":"공항에서 얼마나 걸리나요?","e":"How long does it take from the airport?"},{"n":32,"k":"어떤 계좌가 있나요?","e":"What kinds of bank accounts do you have?"},{"n":33,"k":"이자율은 어떻게 되나요?","e":"What is the interest rate?"},{"n":34,"k":"이자 높은 계좌 추천해 줄 수 있나요?","e":"Could you recommend an account with a high interest rate?"},{"n":35,"k":"체크카드 발급받을 수 있나요?","e":"Can I get a debit card issued?"},{"n":36,"k":"카드 재발급 받을 수 있나요?","e":"Can I get the card reissued?"},{"n":37,"k":"어떤 서류가 필요하나요?","e":"What kinds of documents do you need?"},{"n":38,"k":"재발급 받는 데 얼마나 걸리나요?","e":"How long will it take to get it reissued?"},{"n":39,"k":"서류 작성해야 하나요?","e":"Do I have to fill out a form?"},{"n":40,"k":"BMW 있나요?","e":"Do you have a BMW?"},{"n":41,"k":"흰색 있나요?","e":"Do you have it in white?"},{"n":42,"k":"4명을 위한 SUV추천해 줄 수 있나요?","e":"I\u0027d like to rent a car for 4 people. Can you recommend an SUV?"},{"n":43,"k":"7일 렌트 비용 얼마인가요?","e":"How much does it cost for seven days?"},{"n":44,"k":"보험 포함되어 있나요?","e":"Does it include insurance?"},{"n":45,"k":"어떤 서류가 필요하나요?","e":"What documents do you need?"},{"n":46,"k":"어디서 픽업하고 어디서 반납하나요?","e":"Where can I pick up the car? Where can I return the car?"},{"n":47,"k":"몇 시에 열고 닫나요?","e":"What time do you open? What time do you close?"},{"n":48,"k":"매장이 공항 근처인가요?","e":"Is your shop near the airport?"},{"n":49,"k":"첫 수업은 몇 시에 시작하나요?","e":"What time does the first class start?"},{"n":50,"k":"제니퍼 수업 들을 수 있나요?","e":"Can I take Jennifer\u0027s class?"},{"n":51,"k":"초보자 수업 추천해 줄 수 있나요?","e":"Can you recommend a beginner class?"},{"n":52,"k":"준비물 있나요?","e":"Do I need to bring anything?"},{"n":53,"k":"유니폼 제공하나요?","e":"Do you provide a uniform?"},{"n":54,"k":"강의실은 어디에 있나요?","e":"Where is the classroom?"}];
+var KEY = "roleplay105_v1";
+var st = {status:{}, queue:[], cur:null, last:null};
+try { var s = JSON.parse(localStorage.getItem(KEY)); if (s && s.status) st = s; } catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){} }
+function shuffle(a){ for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+function byId(id){ for(var i=0;i<DATA.length;i++) if(DATA[i].n===id) return DATA[i]; }
+function esc(x){ return x.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+function counts(){ var k=0,u=0; for(var id in st.status){ if(st.status[id]==='k')k++; else u++; } return {k:k,u:u}; }
+function newCycle(avoid){
+  var q = DATA.filter(function(d){return st.status[d.n]!=='k';}).map(function(d){return d.n;});
+  shuffle(q);
+  if(q.length>1 && q[0]===avoid){ var t=q[0]; q[0]=q[1]; q[1]=t; }
+  st.queue = q;
+}
+function next(){
+  if(!st.queue.length) newCycle(st.last);
+  st.cur = st.queue.length ? st.queue[0] : null;
+  save();
+}
+var tab = 1, main = document.getElementById('main');
+function setTab(t){
+  tab=t;
+  document.getElementById('t1').className = t===1?'on':'';
+  document.getElementById('t2').className = t===2?'on':'';
+  render();
+}
+document.getElementById('t1').onclick=function(){setTab(1);};
+document.getElementById('t2').onclick=function(){setTab(2);};
+
+function render(){ tab===1 ? renderList() : renderPractice(); }
+function renderList(){
+  var h='';
+  DATA.forEach(function(d){
+    h+='<div class="item"><div class="n">'+d.n+'</div><div class="k">'+esc(d.k)+'</div><div class="e">'+esc(d.e)+'</div></div>';
+  });
+  main.innerHTML=h; main.scrollTop=0;
+}
+function renderPractice(){
+  if(st.cur===null || st.queue.indexOf(st.cur)<0) { st.queue=[]; next(); }
+  var c=counts();
+  var stat='<div class="stat"><span>외움 <b>'+c.k+'</b></span><span>헷갈림 <b>'+c.u+'</b></span><span>이번 사이클 남은 문장 <b>'+st.queue.length+'</b></span><span>전체 <b>'+DATA.length+'</b></span></div>';
+  var resetBtn='<button class="reset" id="reset">외움/헷갈림 기록 초기화</button>';
+  if(st.cur===null){
+    main.innerHTML=stat+'<div class="done">🎉 모든 문장을 외웠어요!<br>수고하셨습니다.</div>'+resetBtn;
+    document.getElementById('reset').onclick=doReset; return;
+  }
+  var d=byId(st.cur);
+  main.innerHTML=stat+
+   '<div class="big" id="card"><div class="n" style="color:var(--sub);font-size:13px;margin-bottom:10px">#'+d.n+'</div><div class="k">'+esc(d.k)+'</div><div class="e">'+esc(d.e)+'</div></div>'+
+   '<div class="hint">카드를 꾹 누르고 있으면 영어가 보여요</div>'+
+   '<div class="btns"><button class="ok" id="bk">외움</button><button class="no" id="bu">헷갈림</button></div>'+resetBtn;
+  var card=document.getElementById('card');
+  function on(e){ e.preventDefault(); card.classList.add('show'); }
+  function off(){ card.classList.remove('show'); }
+  card.addEventListener('pointerdown',on);
+  ['pointerup','pointercancel','pointerleave'].forEach(function(n){card.addEventListener(n,off);});
+  card.addEventListener('contextmenu',function(e){e.preventDefault();});
+  card.addEventListener('selectstart',function(e){e.preventDefault();});
+  document.getElementById('bk').onclick=function(){answer('k');};
+  document.getElementById('bu').onclick=function(){answer('u');};
+  document.getElementById('reset').onclick=doReset;
+}
+function answer(v){
+  st.status[st.cur]=v; st.last=st.cur;
+  st.queue.shift();
+  next(); renderPractice(); main.scrollTop=0;
+}
+function doReset(){
+  if(!confirm('외움/헷갈림 기록을 모두 지우고 처음부터 다시 시작할까요?')) return;
+  st={status:{},queue:[],cur:null,last:null}; next(); renderPractice();
+}
+render();
+</script>
+</body>
+</html>
