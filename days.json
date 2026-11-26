@@ -327,5 +327,316 @@
     "a": "Where is the classroom located?"
    }
   ]
+ },
+ {
+  "id": 2,
+  "items": [
+   {
+    "n": "55",
+    "k": "교재 사야 하나요?",
+    "e": "Do I have to buy a textbook?",
+    "a": "Is a textbook required?"
+   },
+   {
+    "n": "56",
+    "k": "반을 낮추면 추가 비용 있나요?",
+    "e": "If I take a lower-level class, do I have to pay an additional fee?",
+    "a": "Is there an extra charge for switching to a lower level?"
+   },
+   {
+    "n": "57",
+    "k": "어떤 음식을 제공하나요?",
+    "e": "What kinds of food do you serve?",
+    "a": "What's on the menu?"
+   },
+   {
+    "n": "58",
+    "k": "채식 메뉴 있나요?",
+    "e": "Do you have a vegetarian menu?",
+    "a": "Are there any vegetarian options?"
+   },
+   {
+    "n": "59",
+    "k": "오늘의 특별 메뉴는 뭐예요?",
+    "e": "What's today's special?",
+    "a": "What are today's specials?"
+   },
+   {
+    "n": "60",
+    "k": "크림 파스타 얼마예요?",
+    "e": "How much is the cream pasta?",
+    "a": "What's the price of the cream pasta?"
+   },
+   {
+    "n": "61",
+    "k": "오늘 저녁 7시에 4명 예약할 수 있나요?",
+    "e": "Can I make a reservation for 4 people at 7 tonight?",
+    "a": "I'd like to book a table for four at 7 tonight."
+   },
+   {
+    "n": "62",
+    "k": "프라이빗 룸 있나요?",
+    "e": "Do you have a private room?",
+    "a": "Is there a private room available?"
+   },
+   {
+    "n": "63",
+    "k": "창가 자리 가능할까요?",
+    "e": "Can I get a table near the window?",
+    "a": "Could we sit by the window?"
+   },
+   {
+    "n": "64",
+    "k": "디저트 뭐 있나요?",
+    "e": "What kinds of desserts do you serve?",
+    "a": "What desserts do you have?"
+   },
+   {
+    "n": "65",
+    "k": "회사 어디에 있나요?",
+    "e": "Where is your company located?",
+    "a": "Where is your office?"
+   },
+   {
+    "n": "66",
+    "k": "인터뷰 몇 시에 시작하나요?",
+    "e": "What time does the interview start?",
+    "a": "When does the interview begin?"
+   },
+   {
+    "n": "67",
+    "k": "이력서 가져가야 하나요?",
+    "e": "Do I have to bring my resume?",
+    "a": "Should I bring a copy of my resume?"
+   },
+   {
+    "n": "68",
+    "k": "정장 입어야 하나요?",
+    "e": "Do I have to wear a suit?",
+    "a": "Is a suit required?"
+   },
+   {
+    "n": "69",
+    "k": "몇 시에 만날까?",
+    "e": "What time do you want to meet?",
+    "a": "What time works for you?"
+   },
+   {
+    "n": "70",
+    "k": "어디서 만날까?",
+    "e": "Where should we meet?",
+    "a": "Where would you like to meet?"
+   },
+   {
+    "n": "71",
+    "k": "잠실역 앞 스타벅스에서 만나는 건 어때?",
+    "e": "Why don't we meet at Starbucks in front of Jamsil Station?",
+    "a": "How about meeting at the Starbucks in front of Jamsil Station?"
+   },
+   {
+    "n": "72",
+    "k": "그거 다음에는 뭐 할까?",
+    "e": "What do you want to do after that?",
+    "a": "What should we do after that?"
+   },
+   {
+    "n": "73",
+    "k": "김 선생님 예약하고 싶은데요",
+    "e": "I'd like to make an appointment with Dr. Kim.",
+    "a": "I'd like to book an appointment with Dr. Kim."
+   },
+   {
+    "n": "74",
+    "k": "내일 10시에 진료 가능할까요?",
+    "e": "Could I see the doctor at 10 tomorrow?",
+    "a": "Is the doctor available at 10 tomorrow?"
+   },
+   {
+    "n": "75",
+    "k": "주말에 시간 있나요?",
+    "e": "Do you have time on the weekend?",
+    "a": "Are you free this weekend?"
+   },
+   {
+    "n": "76",
+    "k": "다음 주 금요일에 시간 돼? 나 그날 쉬어",
+    "e": "Are you available next Friday? I'm off that day.",
+    "a": "Are you free next Friday? I have the day off."
+   },
+   {
+    "n": "77",
+    "k": "흰색 있나요?",
+    "e": "Do you have it in white?",
+    "a": "Does it come in white?"
+   },
+   {
+    "n": "78",
+    "k": "어떤 색상 있나요?",
+    "e": "What colors does it come in?",
+    "a": "Which colors are available?"
+   },
+   {
+    "n": "79",
+    "k": "사이즈 있나요?",
+    "e": "Do you have it in a small/medium/large size?",
+    "a": "Is it available in small/medium/large?"
+   },
+   {
+    "n": "80",
+    "k": "입어봐도 될까요?",
+    "e": "Can I try this on?",
+    "a": "May I try this on?"
+   },
+   {
+    "n": "81",
+    "k": "3인용 가죽 소파 있나요?",
+    "e": "Do you have a three-seater leather sofa?",
+    "a": "Do you have a leather sofa that seats three?"
+   },
+   {
+    "n": "82",
+    "k": "배송 서비스 있나요?",
+    "e": "Do you offer delivery?",
+    "a": "Do you deliver?"
+   },
+   {
+    "n": "83",
+    "k": "프로모션 있나요?",
+    "e": "Do you have any promotions?",
+    "a": "Are there any deals right now?"
+   },
+   {
+    "n": "84",
+    "k": "소파/셔츠에 문제가 있어요",
+    "e": "I have a problem with my sofa/shirt.",
+    "a": "Something's wrong with my sofa/shirt."
+   },
+   {
+    "n": "85",
+    "k": "얼룩이 있어요",
+    "e": "There is a stain on it.",
+    "a": "It has a stain on it."
+   },
+   {
+    "n": "86",
+    "k": "작동이 안 돼요",
+    "e": "I tried to turn it on, but it's not working.",
+    "a": "I turned it on, but it won't work."
+   },
+   {
+    "n": "87",
+    "k": "환불 받을 수 있나요?",
+    "e": "Can I get a refund?",
+    "a": "Can I get my money back?"
+   },
+   {
+    "n": "88",
+    "k": "교환할 수 있나요?",
+    "e": "Can I exchange it?",
+    "a": "Can I swap it for another one?"
+   },
+   {
+    "n": "89",
+    "k": "우리 내일 만나기로 했잖아, 근데 못 갈 것 같아",
+    "e": "I know we have plans to meet tomorrow, but I don't think I can make it.",
+    "a": "We were supposed to meet tomorrow, but I don't think I can make it."
+   },
+   {
+    "n": "90",
+    "k": "파티 정말 기대했는데 못 갈 것 같아",
+    "e": "I was really looking forward to going to the party, but I don't think I can make it.",
+    "a": "I was really excited about the party, but I don't think I can come."
+   },
+   {
+    "n": "91",
+    "k": "일정을 다시 잡는 게 좋을 것 같아",
+    "e": "I think it would be better to reschedule.",
+    "a": "Maybe we should reschedule."
+   },
+   {
+    "n": "92",
+    "k": "몇 가지 제안이 있어",
+    "e": "I have some suggestions.",
+    "a": "I have a few ideas."
+   },
+   {
+    "n": "93",
+    "k": "다음 주 토요일에 만나는 건 어때?",
+    "e": "Why don't we meet next Saturday?",
+    "a": "How about we meet next Saturday?"
+   },
+   {
+    "n": "94",
+    "k": "그를 기다리는 게 어때? 근처에 좋은 카페 알아",
+    "e": "Why don't we wait for him? I know a nice café nearby.",
+    "a": "Shall we wait for him? I know a good café close by."
+   },
+   {
+    "n": "95",
+    "k": "따로 공부하고 저녁에 만나서 밥 먹는 건 어때?",
+    "e": "Why don't we study separately? Then we can meet in the evening and have dinner together.",
+    "a": "How about studying on our own and meeting for dinner in the evening?"
+   },
+   {
+    "n": "96",
+    "k": "대신 영화 보는 건 어때?",
+    "e": "Why don't we watch a movie instead?",
+    "a": "Shall we see a movie instead?"
+   },
+   {
+    "n": "97",
+    "k": "다른 사람이랑 그 영화 보는 건 어때?",
+    "e": "What about watching the movie with someone else?",
+    "a": "Why not see the movie with someone else?"
+   },
+   {
+    "n": "98",
+    "k": "존을 초대하는 건 어때? 오늘 시간 있대",
+    "e": "How about inviting John? He's free today.",
+    "a": "Should we invite John? He's free today."
+   },
+   {
+    "n": "99",
+    "k": "다른 나라 여행 가는 건 어때?",
+    "e": "What about traveling to another country?",
+    "a": "How about taking a trip abroad?"
+   },
+   {
+    "n": "100",
+    "k": "내일 비행기 타는 건 어때?",
+    "e": "What about taking tomorrow's flight?",
+    "a": "Why don't we catch tomorrow's flight?"
+   },
+   {
+    "n": "101",
+    "k": "예약 변경할 수 있을까요?",
+    "e": "Can I change my appointment?",
+    "a": "Is it possible to reschedule my appointment?"
+   },
+   {
+    "n": "102",
+    "k": "화상으로 인터뷰 볼 수 있을까요?",
+    "e": "Can I do the interview using a video link?",
+    "a": "Could I do the interview over video?"
+   },
+   {
+    "n": "103",
+    "k": "어떻게 생각하는지 알려줘",
+    "e": "Let me know what you think.",
+    "a": "Tell me what you think."
+   },
+   {
+    "n": "104",
+    "k": "미안해서 내가 저녁 살게",
+    "e": "To make it up to you, I'll treat you to dinner.",
+    "a": "Let me make it up to you. Dinner's on me."
+   },
+   {
+    "n": "105",
+    "k": "나중에 다시 얘기하자",
+    "e": "I'll talk to you later.",
+    "a": "Talk to you later."
+   }
+  ]
  }
 ]
