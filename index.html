@@ -54,7 +54,10 @@ code{background:var(--bg);padding:1px 5px;border-radius:4px}
 <nav>
 <button id="t1" class="on">전체 보기</button>
 <button id="t2">암기 연습</button>
+<button id="t3">업로드</button>
 </nav>
+<input type="file" id="file" accept=".xlsx,.xls" style="display:none">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 var KEY = "roleplay105_v2", KEY_OLD = "roleplay105_v1", KEY_DAYS_CACHE = "roleplay105_days_cache";
 var DAYS = [];                 // days.json 에서 불러온 [{id, items:[{n,k,e,a}]}]
@@ -110,11 +113,11 @@ function next(){
 var tab=1, main=document.getElementById('main');
 function setTab(t){
   tab=t;
-  for(var i=1;i<=2;i++) document.getElementById('t'+i).className = (i===t?'on':'');
+  for(var i=1;i<=3;i++) document.getElementById('t'+i).className = (i===t?'on':'');
   render();
 }
-[1,2].forEach(function(i){ document.getElementById('t'+i).onclick=function(){ setTab(i); }; });
-function render(){ scopeValid(); (tab===1?renderList:renderPractice)(); }
+[1,2,3].forEach(function(i){ document.getElementById('t'+i).onclick=function(){ setTab(i); }; });
+function render(){ scopeValid(); (tab===1?renderList:tab===2?renderPractice:renderUpload)(); }
 
 function chipsHtml(){
   var h='<div class="chips"><button data-s="all" class="'+(st.scope==='all'?'on':'')+'">전체</button>';
@@ -181,6 +184,103 @@ function doReset(){
   allCards(st.scope).forEach(function(c){ delete st.status[c.key]; });
   st.queue=[]; st.cur=null; st.last=null; next(); renderPractice();
 }
+
+/* ---------- 업로드 (GitHub 저장소 days.json 에 저장 → 모든 폰 공통) ---------- */
+var REPO = "dkssudme2/opic-roleplay-105", KEY_TOKEN = "roleplay105_token";
+function getToken(){ try{ return localStorage.getItem(KEY_TOKEN)||''; }catch(e){ return ''; } }
+function ghApi(method, body){
+  var o={method:method, headers:{'Authorization':'Bearer '+getToken(),'Accept':'application/vnd.github+json'}};
+  if(body){ o.body=JSON.stringify(body); o.headers['Content-Type']='application/json'; }
+  return fetch('https://api.github.com/repos/'+REPO+'/contents/days.json'+(method==='GET'?'?t='+Date.now():''), o).then(function(r){
+    return r.json().then(function(j){ if(!r.ok){ var e=new Error(j.message||('HTTP '+r.status)); e.status=r.status; throw e; } return j; });
+  });
+}
+function b64decodeUtf8(b){ var bin=atob(b.replace(/\n/g,'')); var u=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return new TextDecoder().decode(u); }
+function b64encodeUtf8(s){ var u=new TextEncoder().encode(s), bin=''; for(var i=0;i<u.length;i++) bin+=String.fromCharCode(u[i]); return btoa(bin); }
+function errText(e){
+  if(e.status===401||e.status===403) return '저장 권한이 없어요. 토큰이 맞는지, 만료되지 않았는지 확인해 주세요.';
+  if(e.status===404) return '저장소를 찾지 못했어요. 토큰이 이 저장소에 대한 권한(Contents 읽기/쓰기)을 갖고 있는지 확인해 주세요.';
+  if(e.status===409||e.status===422) return '동시에 다른 수정이 있었어요. 잠시 후 다시 시도해 주세요.';
+  return '저장 중 오류가 났어요: '+e.message;
+}
+// 원격 days.json 을 최신으로 읽어 변경(fn)한 뒤 커밋
+function updateRemote(fn, message){
+  return ghApi('GET').then(function(cur){
+    var list=JSON.parse(b64decodeUtf8(cur.content));
+    var res=fn(list);
+    return ghApi('PUT',{message:message, content:b64encodeUtf8(JSON.stringify(list,null,1)+'\n'), sha:cur.sha}).then(function(){ return {list:list,res:res}; });
+  });
+}
+
+var uploadMsg='', busy=false;
+function renderUpload(){
+  var has=!!getToken();
+  var h='<div class="panel"><h3>엑셀 파일로 DAY 추가</h3>'+
+   '엑셀(.xlsx) 첫 번째 시트를 읽어 저장소에 저장해요. 저장하면 모든 폰에서 똑같이 보여요(반영까지 1~2분).<br>'+
+   '1행은 범례(번호, 한글, 영어, 이렇게도 가능해요), 2행부터 데이터예요.<br>'+
+   '<b>A</b> 번호 · <b>B</b> 한글 · <b>C</b> 영어 · <b>D</b> 이렇게도 가능해요(비워도 돼요)'+
+   '<button class="up" id="pick"'+(has&&!busy?'':' disabled style="opacity:.5"')+'>'+(busy?'저장 중…':'엑셀 파일 선택해서 추가')+'</button>'+
+   (has?'':'<div class="msg">먼저 아래에서 저장 토큰을 한 번 등록해 주세요.</div>')+
+   '<div class="msg" id="msg">'+uploadMsg+'</div></div>';
+  h+='<div class="panel"><h3>현재 DAY 목록</h3>';
+  allDays().forEach(function(d){
+    h+='<div class="row"><span>DAY'+d.id+' · '+d.items.length+'문장</span>'+(has&&d.id!==1?'<button data-del="'+d.id+'">삭제</button>':'')+'</div>';
+  });
+  h+='</div>';
+  h+='<div class="panel"><h3>저장 토큰 (이 폰에만 저장)</h3>'+(has?'등록됨 ✅<br><button class="reset" id="tkdel" style="margin-top:8px">토큰 지우기</button>':
+   '<input id="tk" type="password" placeholder="github_pat_..." style="width:100%;padding:12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font-size:14px"><button class="up" id="tksave" style="padding:12px 0;font-size:15px">토큰 등록</button>')+'</div>';
+  main.innerHTML=h; main.scrollTop=0;
+  if(has){
+    var pk=document.getElementById('pick'); if(pk) pk.onclick=function(){
+      if(typeof XLSX==='undefined'){ uploadMsg='엑셀 읽기 도구를 불러오지 못했어요. 인터넷 연결을 확인하고 새로고침해 주세요.'; renderUpload(); return; }
+      document.getElementById('file').click();
+    };
+    document.getElementById('tkdel').onclick=function(){ try{localStorage.removeItem(KEY_TOKEN);}catch(e){} uploadMsg=''; renderUpload(); };
+  } else {
+    document.getElementById('tksave').onclick=function(){
+      var v=document.getElementById('tk').value.trim(); if(!v) return;
+      try{ localStorage.setItem(KEY_TOKEN, v); }catch(e){}
+      uploadMsg='토큰을 등록했어요.'; renderUpload();
+    };
+  }
+  var ds=main.querySelectorAll('button[data-del]');
+  for(var i=0;i<ds.length;i++) ds[i].onclick=function(){
+    var id=parseInt(this.getAttribute('data-del'),10);
+    if(!confirm('DAY'+id+'을(를) 모든 폰에서 삭제할까요? 해당 기록도 함께 지워져요.')) return;
+    busy=true; uploadMsg='삭제 중…'; renderUpload();
+    updateRemote(function(list){ for(var j=list.length-1;j>=0;j--) if(list[j].id===id) list.splice(j,1); }, 'Delete DAY'+id).then(function(r){
+      busy=false; uploadMsg='DAY'+id+'을(를) 삭제했어요.'; applyDays(r.list,true);
+    }).catch(function(e){ busy=false; uploadMsg='⚠️ '+errText(e); renderUpload(); });
+  };
+}
+document.getElementById('file').onchange=function(ev){
+  var f=ev.target.files[0]; ev.target.value=''; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(){
+    var items=[], skipped=0;
+    try{
+      var wb=XLSX.read(new Uint8Array(r.result),{type:'array'});
+      var rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''});
+      for(var i=1;i<rows.length;i++){           // 1행(범례) 건너뜀
+        var row=rows[i], k=String(row[1]==null?'':row[1]).trim(), e=String(row[2]==null?'':row[2]).trim(), a=String(row[3]==null?'':row[3]).trim();
+        var n=String(row[0]==null?'':row[0]).trim();
+        if(!k && !e) continue;
+        if(!k || !e){ skipped++; continue; }
+        items.push({n:n||String(items.length+1), k:k, e:e, a:a});
+      }
+    }catch(err){ uploadMsg='⚠️ 파일을 읽지 못했어요. .xlsx 파일이 맞는지 확인해 주세요.'; renderUpload(); return; }
+    if(!items.length){ uploadMsg='⚠️ 읽을 수 있는 문장이 없어요. 2행부터 B열(한글), C열(영어)이 채워져 있는지 확인해 주세요.'; renderUpload(); return; }
+    busy=true; uploadMsg='저장소에 저장하는 중…'; renderUpload();
+    updateRemote(function(list){
+      var nid=1; list.forEach(function(d){ if(d.id>=nid) nid=d.id+1; });
+      list.push({id:nid, items:items}); return nid;
+    }, 'Add DAY from Excel upload').then(function(r){
+      busy=false; uploadMsg='✅ DAY'+r.res+' 저장 완료 · '+items.length+'문장'+(skipped?' (한글/영어 중 하나가 빈 '+skipped+'행은 제외)':'')+' · 다른 폰에는 1~2분 뒤 보여요';
+      applyDays(r.list,true);
+    }).catch(function(e){ busy=false; uploadMsg='⚠️ '+errText(e); renderUpload(); });
+  };
+  r.readAsArrayBuffer(f);
+};
 
 /* ---------- 데이터 불러오기 ---------- */
 function applyDays(list, fresh){
